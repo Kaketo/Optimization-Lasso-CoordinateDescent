@@ -23,13 +23,15 @@ soft_thresholding_operator <- function(x, lambda){
   }
 }
 
-coordinate_descent_lasso <- function(beta, X, Y, lambda=0.01, num_iters=100) {
+coordinate_descent_lasso <- function(beta, X, Y, lambda=0.01, num_iters=100, eps=1e-25) {
   # Initial values
   p <- ncol(X)
   b <- beta # Initial betas
   
   # Coordiante descent
   for(step in 1:num_iters){
+    prev_b <- b
+    
     for(j in 1:p){
       tmp_b <- b
       tmp_b[j] <- 0
@@ -40,6 +42,11 @@ coordinate_descent_lasso <- function(beta, X, Y, lambda=0.01, num_iters=100) {
       normalizing_parameter <- sum((X[,j])**2)
       
       b[j] <- soft_thresholding_operator(rho_j, lambda) / normalizing_parameter
+    }
+    
+    if(sum((b - prev_b)**2 < eps)) {
+      print(step)
+      break
     }
   }
   b
