@@ -2,7 +2,7 @@ stringsAsFactors = FALSE
 library(dplyr)
 library(lars)
 
-#setwd("C:/Users/tomas/OneDrive/Documents/Studies/PW-IAD/Optymalizacja/")
+setwd("C:/Users/tomas/OneDrive/Documents/Studies/PW-IAD/Optymalizacja/")
 diabetes <- read.csv2("diabetes.csv", sep = ',', header = TRUE, stringsAsFactors = FALSE)
 diabetes <- transform(diabetes, BMI = as.numeric(BMI))
 diabetes <- transform(diabetes, DiabetesPedigreeFunction = as.numeric(DiabetesPedigreeFunction))
