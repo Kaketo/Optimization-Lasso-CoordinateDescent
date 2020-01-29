@@ -1,5 +1,6 @@
 library(ggplot2)
 library(dplyr)
+library(reshape2)
 source("./own_implementation.R")
 
 # 1: iteracja vs wartość funkcji kosztu
@@ -62,6 +63,27 @@ iter_cost_plot_5
 
 iter_cost_plot_m <- prepare_line_plot(df[1:300,], xlab=xlab, ylab=ylab)
 iter_cost_plot_m
+
+# 2: rozne lambdy vs kazdy wspolczynnik osobno
+
+lambda_list <- c(0.000001, 0.0001, 0.001, 0.005, 0.01, 0.1)
+res_own_betas <- lapply(lambda_list, function(lambda) {
+  coordinate_descent_lasso(beta=rep(0,8),
+                           X=x,
+                           Y=y,
+                           lambda=lambda,
+                           num_iters = max_iters)$beta
+})
+
+df_2_own <- cbind(as.data.frame(matrix(unlist(res_own_betas), ncol=8, nrow=length(lambda_list))), data.frame(lambda=log10(lambda_list)))
+df_melted_own <- melt(df_2_own, id.vars="lambda")
+beta_plot_own<- ggplot(data = df_melted_own, aes(x=lambda, y=value, color=variable)) +
+  geom_line() +
+  xlab("log10(lambda)") +
+  theme_classic()
+  
+beta_plot_own
+#df_cols <- paste0(rep("V", 8), 1:8)[1]
 
 # 3: iteracja vs predkosc zmian wspolczynnikow (druga norma do kwadratu)
 
