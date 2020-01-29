@@ -11,7 +11,7 @@ res_own <- coordinate_descent_lasso(beta=rep(0,8),
                                 lambda=lambda,
                                 num_iters = max_iters)
 
-cost_fun_lars <- sapply(0:(max_iters), function(iter_num) {
+cost_fun_lars <- sapply(1:(max_iters), function(iter_num) {
   coef_lars <- coef(lars(x,y, type = "lasso", trace = FALSE, normalize = TRUE, intercept = FALSE, max.steps = iter_num))
   coef_lars <- as.numeric(coef_lars[nrow(coef_lars),])
   cost_fun(x, y, coef_lars, lambda)
@@ -20,7 +20,7 @@ cost_fun_lars <- sapply(0:(max_iters), function(iter_num) {
 df <- data.frame(
   x=0:(length(res_own$cost_val)-1),
   y_own=res_own$cost_val,
-  y_lars=cost_fun_lars
+  y_lars=c(res_own$cost_val[1], cost_fun_lars)
 )
 
 prepare_line_plot <- function(df, xlab, ylab) {
@@ -40,7 +40,7 @@ prepare_line_plot <- function(df, xlab, ylab) {
 
 xlab <- "iteration number"
 ylab <- "cost function value"
-iter_cost_plot_1 <- prepare_line_plot(df[1:20,], xlab=xlab, ylab=ylab)
+iter_cost_plot_1 <- prepare_line_plot(df[1:4,], xlab=xlab, ylab=ylab)
 iter_cost_plot_1
 
 iter_cost_plot_2 <- prepare_line_plot(df[3:50,], xlab=xlab, ylab=ylab)
