@@ -11,55 +11,74 @@ require(knitr)
 source("plots.R")
 ```
 
+```{r}
+#setwd("C:/Users/tomas/OneDrive/Documents/Studies/PW-IAD/Optymalizacja/")
+diabetes <- read.csv2("diabetes.csv", sep = ',', header = TRUE, stringsAsFactors = FALSE)
+diabetes <- transform(diabetes, BMI = as.numeric(BMI))
+diabetes <- transform(diabetes, DiabetesPedigreeFunction = as.numeric(DiabetesPedigreeFunction))
+
+x <- as.matrix(diabetes %>% select(-c("Outcome")))
+y <- as.vector(diabetes %>% select(c("Outcome")))
+y <- unlist(y)
+x[is.na(x)] <- 0
+x <- x / norm(x, type="2") # Normalize data
+```
+
 # Iteration vs cost
 
 ```{r}
-iter_cost_plot_1
+res <- gen_plots(X=x, Y=y, start_beta=rep(0, 8),
+                 lambda=0.0000001, max_iters=1000,
+                 lambda_list=seq(0.0000001, 0.1, by=0.001))
 ```
 
 ```{r}
-iter_cost_plot_2
+res$iter_cost_plot_1
 ```
 
 ```{r}
-iter_cost_plot_3
+res$iter_cost_plot_2
 ```
 
 ```{r}
-iter_cost_plot_4
+res$iter_cost_plot_3
 ```
 
 ```{r}
-iter_cost_plot_5
+res$iter_cost_plot_4
 ```
 
 ```{r}
-iter_cost_plot_m
+res$iter_cost_plot_5
+```
+
+```{r}
+res$iter_cost_plot_m
 ```
 
 # Own implementation: each coefficient separately
 
 ```{r}
-beta_plot_own
+res$beta_plot_own
 ```
 
 
 # Iteration vs change of norm2 of consecutive beta
 
 ```{r}
-beta_change_plot_1
+res$beta_change_plot_1
 ```
 
 ```{r}
-beta_change_plot_2
+res$beta_change_plot_2
 ```
 
 ```{r}
-beta_change_plot_3
+res$beta_change_plot_3
 ```
 
 ```{r}
-beta_change_plot_4
+res$beta_change_plot_4
 ```
 
 
