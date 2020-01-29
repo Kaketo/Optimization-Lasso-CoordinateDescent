@@ -105,7 +105,8 @@ gen_plots <- function(start_beta,
       cbind(as.data.frame(matrix(
         unlist(res_own_betas),
         ncol = 8,
-        nrow = length(lambda_list)
+        nrow = length(lambda_list),
+        byrow=TRUE
       )), data.frame(lambda = log10(lambda_list)))
     df_melted_own <- melt(df_2_own, id.vars = "lambda")
     beta_plot_own <-

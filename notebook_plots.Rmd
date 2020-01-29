@@ -29,7 +29,7 @@ x <- x / norm(x, type="2") # Normalize data
 ```{r}
 res <- gen_plots(X=x, Y=y, start_beta=rep(0, 8),
                  lambda=0.0000001, max_iters=1000,
-                 lambda_list=seq(0.0000001, 0.1, by=0.001))
+                 lambda_list=seq(0.0000001, 1, by=0.00001))
 ```
 
 ```{r}
