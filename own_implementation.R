@@ -35,6 +35,8 @@ coordinate_descent_lasso <- function(beta, X, Y, lambda=0.01, num_iters=100, eps
   cost_iter = rep(NA, num_iters + 1)
   cost_iter[1] = cost_fun(X, y, beta, lambda)
   
+  diff <- rep(NA, num_iters - 1)
+  
   # Coordiante descent
   for(step in 1:(num_iters + 1)){
     prev_b <- b
@@ -54,14 +56,16 @@ coordinate_descent_lasso <- function(beta, X, Y, lambda=0.01, num_iters=100, eps
     cost_iter[step + 1] <- cost_fun(X, Y, b, lambda)
   #  print(cost_iter[step + 1])
     
-    if(sum((b - prev_b)**2) < eps) {
+    diff[step] <- sum((b - prev_b)**2)
+    
+    if(diff[step] < eps) {
       print(step + 1)
       break
     }
   }
   
 #  cost_iter <- cost_iter[!is.na(cost_iter)]
-  list(beta=b, cost_val=cost_iter)
+  list(beta=b, cost_val=cost_iter, diff=diff)
 }
 
 compare <- function() {
