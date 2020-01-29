@@ -66,7 +66,7 @@ iter_cost_plot_m
 
 # 2: rozne lambdy vs kazdy wspolczynnik osobno
 
-lambda_list <- c(0.000001, 0.0001, 0.001, 0.005, 0.01, 0.1)
+lambda_list <- seq(0.0000001, 0.1, by=0.001) #c(0.000001, 0.0001, 0.001, 0.005, 0.01, 0.1)
 res_own_betas <- lapply(lambda_list, function(lambda) {
   coordinate_descent_lasso(beta=rep(0,8),
                            X=x,
