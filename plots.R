@@ -23,19 +23,33 @@ df <- data.frame(
   y_lars=cost_fun_lars
 )
 
-df <- df[1:50,]
+prepare_iter_cost_plot <- function(df) {
+  iter_cost_plot <- ggplot(df, aes(x=x, y=y_own)) +
+    geom_line(aes(color="own")) +
+    geom_line(aes(x=x, y=y_lars, color="lars")) +
+    xlab("iteration number") +
+    ylab("cost function value") +
+    labs(color="method") +
+    theme_classic() +
+    theme(axis.text.x = element_text(size = 14), axis.title.x = element_text(size = 16),
+          axis.text.y = element_text(size = 14), axis.title.y = element_text(size = 16),
+          plot.title = element_text(size = 20, face = "bold", color = "darkgreen"))
+  iter_cost_plot
+}
 
-iter_cost_plot <- ggplot(df, aes(x=x, y=y_own)) +
-  geom_line(aes(color="own")) +
-  geom_line(aes(x=x, y=y_lars, color="lars")) +
-  xlab("iteration number") +
-  ylab("cost function value") +
-  labs(color="method") +
-  theme_classic() +
-  theme(axis.text.x = element_text(size = 14), axis.title.x = element_text(size = 16),
-        axis.text.y = element_text(size = 14), axis.title.y = element_text(size = 16),
-        plot.title = element_text(size = 20, face = "bold", color = "darkgreen"))
 
-iter_cost_plot
+iter_cost_plot_1 <- prepare_iter_cost_plot(df[1:20,])
+iter_cost_plot_1
 
+iter_cost_plot_2 <- prepare_iter_cost_plot(df[3:50,])
+iter_cost_plot_2
+
+iter_cost_plot_3 <- prepare_iter_cost_plot(df[10:50,])
+iter_cost_plot_3
+
+iter_cost_plot_4 <- prepare_iter_cost_plot(df[50:100,])
+iter_cost_plot_4
+
+iter_cost_plot_5 <- prepare_iter_cost_plot(df[100:150,])
+iter_cost_plot_5
 
