@@ -11,9 +11,14 @@ res_own <- coordinate_descent_lasso(beta=rep(0,8),
                                 lambda=lambda,
                                 num_iters = max_iters)
 
-cost_fun_lars <- sapply(1:(max_iters), function(iter_num) {
+get_lars_coef <- function(iter_num) {
   coef_lars <- coef(lars(x,y, type = "lasso", trace = FALSE, normalize = TRUE, intercept = FALSE, max.steps = iter_num))
   coef_lars <- as.numeric(coef_lars[nrow(coef_lars),])
+  coef_lars
+}
+
+cost_fun_lars <- sapply(1:(max_iters), function(iter_num) {
+  coef_lars <- get_lars_coef(iter_num)
   cost_fun(x, y, coef_lars, lambda)
 })
 
