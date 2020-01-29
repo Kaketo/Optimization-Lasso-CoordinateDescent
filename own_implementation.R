@@ -64,12 +64,11 @@ coordinate_descent_lasso <- function(beta, X, Y, lambda=0.01, num_iters=100, eps
   list(beta=b, cost_val=cost_iter)
 }
 
-lambda <- 0.0000001
 compare <- function() {
   own_res <- coordinate_descent_lasso(beta=rep(0,8),
                                 X=x,
                                 Y=y,
-                                lambda=lambda,
+                                lambda=0.0000001,
                                 num_iters = 1000)
   
   lars_coef <- coef(lars(x,y, type = "lasso", trace = FALSE, normalize = TRUE, intercept = FALSE))

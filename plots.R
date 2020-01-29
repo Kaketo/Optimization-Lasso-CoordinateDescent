@@ -4,10 +4,11 @@ source("./own_implementation.R")
 
 # 1: iteracja vs wartość funkcji kosztu
 max_iters <- 1000
+lambda <- 0.0000001
 res_own <- coordinate_descent_lasso(beta=rep(0,8),
                                 X=x,
                                 Y=y,
-                                lambda=0.0,
+                                lambda=lambda,
                                 num_iters = max_iters)
 
 cost_fun_lars <- sapply(0:(max_iters), function(iter_num) {
@@ -36,3 +37,5 @@ iter_cost_plot <- ggplot(df, aes(x=x, y=y_own)) +
         plot.title = element_text(size = 20, face = "bold", color = "darkgreen"))
 
 iter_cost_plot
+
+
