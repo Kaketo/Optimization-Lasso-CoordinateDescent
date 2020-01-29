@@ -24,7 +24,7 @@ coordinate_descent_lasso <- function(beta, X, Y, lambda=0.01, num_iters=100, eps
   cost_iter = rep(NA, num_iters + 1)
   cost_iter[1] = cost_fun(X, y, beta, lambda)
   
-  diff <- rep(NA, num_iters - 1)
+  diff <- rep(NA, num_iters)
   
   # Coordiante descent
   for(step in 1:(num_iters)){

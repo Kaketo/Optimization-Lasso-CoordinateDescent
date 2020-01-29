@@ -124,7 +124,9 @@ gen_plots <- function(start_beta,
       sum(sqrt((lars_coef[[iter_num]] - lars_coef[[iter_num - 1]]) ** 2))
     })
     
-    df_3 <- data.frame(x = 2:max_iters,
+    lars_diff <- c(sqrt(sum(lars_coef[[1]]**2)), lars_diff)
+    
+    df_3 <- data.frame(x = 1:max_iters,
                        y_own = res_own$diff,
                        y_lars = lars_diff)
     
