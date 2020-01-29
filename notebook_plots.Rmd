@@ -1,0 +1,66 @@
+---
+title: "Plots"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(dplyr)
+require(knitr)
+source("plots.R")
+```
+
+# Iteration vs cost
+
+```{r}
+iter_cost_plot_1
+```
+
+```{r}
+iter_cost_plot_2
+```
+
+```{r}
+iter_cost_plot_3
+```
+
+```{r}
+iter_cost_plot_4
+```
+
+```{r}
+iter_cost_plot_5
+```
+
+```{r}
+iter_cost_plot_m
+```
+
+# Own implementation: each coefficient separately
+
+```{r}
+beta_plot_own
+```
+
+
+# Iteration vs change of norm2 of consecutive beta
+
+```{r}
+beta_change_plot_1
+```
+
+```{r}
+beta_change_plot_2
+```
+
+```{r}
+beta_change_plot_3
+```
+
+```{r}
+beta_change_plot_4
+```
+
+
+
