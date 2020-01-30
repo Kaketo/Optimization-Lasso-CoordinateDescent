@@ -13,7 +13,7 @@ gen_plots <- function(start_beta,
     res_own <- coordinate_descent_lasso(
       beta = start_beta,
       X = X,
-      Y = Y,
+      y = Y,
       lambda = lambda,
       num_iters = max_iters
     )
@@ -95,7 +95,7 @@ gen_plots <- function(start_beta,
       coordinate_descent_lasso(
         beta = start_beta,
         X = X,
-        Y = Y,
+        y = Y,
         lambda = lambda,
         num_iters = max_iters
       )$beta
@@ -161,4 +161,6 @@ gen_plots <- function(start_beta,
         beta_change_plot_4 = beta_change_plot_4
       )
     )
-  }
+}
+
+

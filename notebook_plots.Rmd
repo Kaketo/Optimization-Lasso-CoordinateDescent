@@ -4,15 +4,17 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
+setwd("C:/Users/tomas/OneDrive/Documents/Studies/PW-IAD/Optymalizacja/Optimization-Lasso-CoordinateDescent/Optimization-Lasso-CoordinateDescent/")
+
 knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 library(dplyr)
 require(knitr)
 source("plots.R")
+source("CPU_plots.R")
 ```
 
 ```{r}
-#setwd("C:/Users/tomas/OneDrive/Documents/Studies/PW-IAD/Optymalizacja/")
 diabetes <- read.csv2("diabetes.csv", sep = ',', header = TRUE, stringsAsFactors = FALSE)
 diabetes <- transform(diabetes, BMI = as.numeric(BMI))
 diabetes <- transform(diabetes, DiabetesPedigreeFunction = as.numeric(DiabetesPedigreeFunction))
@@ -27,9 +29,12 @@ x <- x / norm(x, type="2") # Normalize data
 # Iteration vs cost
 
 ```{r}
+# res <- gen_plots(X=x, Y=y, start_beta=rep(0, 8),
+#                  lambda=0.0000001, max_iters=1000,
+#                  lambda_list=seq(0.0000001, 1, by=0.00001))
 res <- gen_plots(X=x, Y=y, start_beta=rep(0, 8),
                  lambda=0.0000001, max_iters=1000,
-                 lambda_list=seq(0.0000001, 1, by=0.00001))
+                 lambda_list=seq(0.01, 1, by=0.02))
 ```
 
 ```{r}
@@ -82,4 +87,72 @@ res$beta_change_plot_4
 ```
 
 
+# CPU plots
 
+```{r}
+res_cpu <- gen_cpu_plots(
+          start_beta=rep(0, ncol(x)),
+          X=x,
+          Y=y,
+          lambda=0.0001,
+          max_iters=1000,
+          how_many_rows_list=seq(10,nrow(x),50)
+        )
+```
+
+## CPU time vs number of samples
+
+```{r}
+res_cpu$cpu_n_plot
+```
+
+## CPU time vs number of variables
+
+```{r}
+res_cpu$cpu_p_plot
+```
+
+
+# Generated dataset
+
+```{r}
+generate_data <- function(y, n_cols, prob, max_variance){
+  x <- matrix(nrow = length(y),ncol = n_cols)
+  
+  for(i in 1:n_cols){
+    x[,i] <- y + rnorm(n = length(y), mean = 0, sd = runif(1,0,max_variance))
+  }
+  x
+}
+
+
+y <- rbinom(1000, 1, prob = 0.3)
+n_cols <- 1000
+x <- generate_data(y, n_cols=50,prob = 0.3, max_variance = 100)
+
+```
+
+## CPU plots
+
+```{r}
+res_cpu <- gen_cpu_plots(
+          start_beta=rep(0, ncol(x)),
+          X=x,
+          Y=y,
+          lambda=0.0001,
+          max_iters=1000,
+          how_many_rows_list=seq(10,nrow(x),50)
+        )
+```
+
+### CPU time vs number of samples
+
+```{r}
+res_cpu$cpu_n_plot
+```
+
+### CPU time vs number of variables
+
+```{r}
+res_cpu$cpu_p_plot
+```
