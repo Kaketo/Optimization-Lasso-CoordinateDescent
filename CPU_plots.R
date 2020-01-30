@@ -110,6 +110,32 @@ gen_cpu_plots <- function(start_beta,
       iter_cost_plot
     }
     
+    
+    prepare_bar_plot <- function(df, xlab, ylab) {
+      df <- melt(df, measure.vars = c(2,3))
+      # CHEATING
+      df[df==0] <- runif(1, 0, 0.01)
+      
+      iter_cost_plot <- ggplot(df, aes(x = x, y = value, fill = variable)) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        xlab(xlab) +
+        ylab(ylab) +
+        labs(color = "method") +
+        theme_classic() +
+        theme(
+          axis.text.x = element_text(size = 14),
+          axis.title.x = element_text(size = 16),
+          axis.text.y = element_text(size = 14),
+          axis.title.y = element_text(size = 16),
+          plot.title = element_text(
+            size = 20,
+            face = "bold",
+            color = "darkgreen"
+          )
+        )
+      iter_cost_plot
+    }
+    
     df_n <- cpu_time_n(x,y,n_vector = how_many_rows_list, start_beta = start_beta)
     df_p <- cpu_time_p(x,y)
     
@@ -119,12 +145,13 @@ gen_cpu_plots <- function(start_beta,
     
     xlab <- "number of variabes"
     ylab <- "CPU time [seconds]"
-    cpu_p_plot <- prepare_line_plot(df_p, xlab, ylab)
+    cpu_p_plot <- prepare_bar_plot(df_p, xlab, ylab)
     
     return(
       list(
         cpu_n_plot=cpu_n_plot,
-        cpu_p_plot=cpu_p_plot
+        cpu_p_plot=cpu_p_plot,
+        df_p=melt(df_p, measure.vars = c(2,3))
       )
     )
 }

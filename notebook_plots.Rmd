@@ -4,7 +4,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-#setwd("C:/Users/tomas/OneDrive/Documents/Studies/PW-IAD/Optymalizacja/Optimization-Lasso-CoordinateDescent/Optimization-Lasso-CoordinateDescent/")
+# setwd("C:/Users/tomas/OneDrive/Documents/Studies/PW-IAD/Optymalizacja/Optimization-Lasso-CoordinateDescent/Optimization-Lasso-CoordinateDescent/")
 
 knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
