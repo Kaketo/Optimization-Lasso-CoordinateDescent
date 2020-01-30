@@ -16,7 +16,7 @@ cost_fun <- function(X, y, beta, lambda) {
   1/2 * sum((y - X %*% beta)**2) + lambda * sum(abs(beta))
 }
 
-coordinate_descent_lasso <- function(beta, X, Y, lambda=0.01, num_iters=100, eps=1e-25) {
+coordinate_descent_lasso <- function(beta, X, y, lambda=0.01, num_iters=100, eps=1e-25) {
   # Initial values
   p <- ncol(X)
   b <- beta # Initial betas
@@ -42,12 +42,12 @@ coordinate_descent_lasso <- function(beta, X, Y, lambda=0.01, num_iters=100, eps
       b[j] <- soft_thresholding_operator(rho_j, lambda) / normalizing_parameter
     }
     
-    cost_iter[step + 1] <- cost_fun(X, Y, b, lambda)
+    cost_iter[step + 1] <- cost_fun(X, y, b, lambda)
 
     diff[step] <- sqrt(sum((b - prev_b)**2))
     
     if(diff[step] < eps) {
-      print(step + 1)
+      # print(step + 1)
       break
     }
   }
