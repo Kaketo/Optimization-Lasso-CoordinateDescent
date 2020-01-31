@@ -113,7 +113,7 @@ gen_cpu_plots <- function(start_beta,
     
     prepare_bar_plot <- function(df, xlab, ylab) {
       df <- melt(df, measure.vars = c(2,3))
-      # CHEATING
+      # ###
       df[df==0] <- runif(1, 0, 0.01)
       
       iter_cost_plot <- ggplot(df, aes(x = x, y = value, fill = variable)) +
