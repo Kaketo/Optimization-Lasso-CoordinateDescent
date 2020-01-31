@@ -15,6 +15,7 @@ start_beta <- rep(0,8)
 lambda_list <- c(0.00001, 0.0001, 0.001, 0.01, 0.1, 0.5, 1, 2)
 max_iters <- 1000
 
+lr <- simplify2array(get_lars_coef(x, y, max_iters))
 mse_list <- sapply(lambda_list, function(lambda) {
   cd <- simplify2array(coordinate_descent_lasso(
     beta = start_beta,
@@ -22,10 +23,12 @@ mse_list <- sapply(lambda_list, function(lambda) {
     y = y,
     lambda = lambda,
     num_iters = max_iters
-  ))
+  ))$beta
   
-  lr <- simplify2array(get_lars_coef(X, Y, max_iters))
-  sqrt(sum((cd - lr)**2))
+  computed_res <- as.vector(x %*% cd)
+  expected_res <- as.vector(y)
+
+  sqrt(sum((computed_res - expected_res)**2))
 })
 
 print(mse_list)
