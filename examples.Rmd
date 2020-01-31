@@ -14,7 +14,7 @@ stringsAsFactors = FALSE
 library(dplyr)
 library(lars)
 
-setwd("C:/Users/tomas/OneDrive/Documents/Studies/PW-IAD/Optymalizacja/")
+#setwd("C:/Users/tomas/OneDrive/Documents/Studies/PW-IAD/Optymalizacja/")
 ```
 
 
@@ -77,28 +77,18 @@ lars_betas
 own_betas <- coordinate_descent_lasso(beta=rep(0,8),
                               X=x,
                               Y=y,
-                              lambda=0.0,
+                              lambda=0.0000001,
                               num_iters = 1000)
 own_betas
 ```
 
-```{r, showOutput=TRUE}
-library(Rcpp)
-Rcpp::sourceCpp("coordinate_descent.cpp")
-own_betas_cpp <- coordinate_descent_lasso(beta=rep(0,8),
-                              X=x,
-                              Y=y,
-                              lambda=0.0,
-                              num_iters = 1000)
-own_betas_cpp
-```
 
 ```{r}
 library(microbenchmark)
 a <- 2
 microbenchmark(
   coef(lars(x,y, type = "lasso", trace = FALSE, normalize = TRUE, intercept = FALSE, max.steps = 1000)),
-  coordinate_descent_lasso(beta=rep(0,8),X=x,Y=y,lambda=0.0,num_iters = 1000)
+  coordinate_descent_lasso(beta=rep(0,8),X=x,Y=y,lambda=0.0000001,num_iters = 1000)
   )
 ```
 
