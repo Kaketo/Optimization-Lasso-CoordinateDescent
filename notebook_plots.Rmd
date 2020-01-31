@@ -23,67 +23,78 @@ x <- as.matrix(diabetes %>% select(-c("Outcome")))
 y <- as.vector(diabetes %>% select(c("Outcome")))
 y <- unlist(y)
 x[is.na(x)] <- 0
-x <- x / norm(x, type="2") # Normalize data
+x <- x / norm(x, type="2") # Normalize 
+start_beta <- rep(0,8)
 ```
 
 # Iteration vs cost
 
 ```{r}
+lambda <- 0.0000001
+max_iters <- 1000 
 # res <- gen_plots(X=x, Y=y, start_beta=rep(0, 8),
 #                  lambda=0.0000001, max_iters=1000,
 #                  lambda_list=seq(0.0000001, 1, by=0.00001))
-res <- gen_plots(X=x, Y=y, start_beta=rep(0, 8),
-                 lambda=0.0000001, max_iters=1000,
-                 lambda_list=seq(0.01, 1, by=0.02))
+iter_cost_plots <- gen_iter_cost_plots(X=x, Y=y, start_beta=start_beta,
+                 lambda=lambda, max_iters=max_iters) # lambda_list=seq(0.01, 10, by=0.02)
 ```
 
 ```{r}
-res$iter_cost_plot_1
+iter_cost_plots$iter_cost_plot_1
 ```
 
 ```{r}
-res$iter_cost_plot_2
+iter_cost_plots$iter_cost_plot_2
 ```
 
 ```{r}
-res$iter_cost_plot_3
+iter_cost_plots$iter_cost_plot_3
 ```
 
 ```{r}
-res$iter_cost_plot_4
+iter_cost_plots$iter_cost_plot_4
 ```
 
 ```{r}
-res$iter_cost_plot_5
+iter_cost_plots$iter_cost_plot_5
 ```
 
 ```{r}
-res$iter_cost_plot_m
+iter_cost_plots$iter_cost_plot_m
 ```
 
 # Own implementation: each coefficient separately
 
 ```{r}
-res$beta_plot_own
+separate_betas_res <- separate_betas_plot(X=x, Y=y, start_beta=start_beta, max_iters=max_iters, lambda_list=seq(0.01, 10, by=0.02))
+```
+
+```{r}
+separate_betas_res
 ```
 
 
 # Iteration vs change of norm2 of consecutive beta
 
 ```{r}
-res$beta_change_plot_1
+iter_coef_change_plot_res <- iter_coef_change_plot(X=x, Y=y, start_beta=start_beta,
+                 lambda=lambda, max_iters=max_iters)
 ```
 
 ```{r}
-res$beta_change_plot_2
+iter_coef_change_plot_res$beta_change_plot_1
 ```
 
 ```{r}
-res$beta_change_plot_3
+iter_coef_change_plot_res$beta_change_plot_2
 ```
 
 ```{r}
-res$beta_change_plot_4
+iter_coef_change_plot_res$beta_change_plot_3
+```
+
+```{r}
+iter_coef_change_plot_res$beta_change_plot_4
 ```
 
 
@@ -94,8 +105,8 @@ res_cpu <- gen_cpu_plots(
           start_beta=rep(0, ncol(x)),
           X=x,
           Y=y,
-          lambda=0.0001,
-          max_iters=1000,
+          lambda=lambda,
+          max_iters=max_iters,
           how_many_rows_list=seq(10,nrow(x),50)
         )
 ```
@@ -129,7 +140,7 @@ generate_data <- function(y, n_cols, prob, max_variance){
 y <- rbinom(1000, 1, prob = 0.3)
 n_cols <- 1000
 x <- generate_data(y, n_cols=50,prob = 0.3, max_variance = 100)
-
+start_beta <- rep(0, ncol(x))
 ```
 
 ## CPU plots
@@ -139,8 +150,8 @@ res_cpu <- gen_cpu_plots(
           start_beta=rep(0, ncol(x)),
           X=x,
           Y=y,
-          lambda=0.0001,
-          max_iters=1000,
+          lambda=lambda,
+          max_iters=max_iters,
           how_many_rows_list=seq(10,nrow(x),50)
         )
 ```
@@ -155,4 +166,35 @@ res_cpu$cpu_n_plot
 
 ```{r}
 res_cpu$cpu_p_plot
+```
+
+## Iteration vs cost
+
+```{r}
+iter_cost_plots <- gen_iter_cost_plots(X=x, Y=y, start_beta=start_beta,
+                 lambda=lambda, max_iters=max_iters) # lambda_list=seq(0.01, 10, by=0.02)
+```
+
+```{r}
+iter_cost_plots$iter_cost_plot_1
+```
+
+```{r}
+iter_cost_plots$iter_cost_plot_2
+```
+
+```{r}
+iter_cost_plots$iter_cost_plot_3
+```
+
+```{r}
+iter_cost_plots$iter_cost_plot_4
+```
+
+```{r}
+iter_cost_plots$iter_cost_plot_5
+```
+
+```{r}
+iter_cost_plots$iter_cost_plot_m
 ```
