@@ -168,33 +168,3 @@ res_cpu$cpu_n_plot
 res_cpu$cpu_p_plot
 ```
 
-## Iteration vs cost
-
-```{r}
-iter_cost_plots <- gen_iter_cost_plots(X=x, Y=y, start_beta=start_beta,
-                 lambda=lambda, max_iters=max_iters) # lambda_list=seq(0.01, 10, by=0.02)
-```
-
-```{r}
-iter_cost_plots$iter_cost_plot_1
-```
-
-```{r}
-iter_cost_plots$iter_cost_plot_2
-```
-
-```{r}
-iter_cost_plots$iter_cost_plot_3
-```
-
-```{r}
-iter_cost_plots$iter_cost_plot_4
-```
-
-```{r}
-iter_cost_plots$iter_cost_plot_5
-```
-
-```{r}
-iter_cost_plots$iter_cost_plot_m
-```
